@@ -14,6 +14,7 @@ var game_bat_pos: Vector2
 var player_bat_pos: Vector2
 var game_score = 0
 var player_score = 0
+var play_sound = true
 
 func _ready():
 	playarea = get_window().size
@@ -42,12 +43,15 @@ func serve_ball(player_to_serve):
 	ball_step.y = 1 if randf() > 0.5 else -1
 	ball_pos.y = (playarea.y - MARGIN * 4) * randf() + MARGIN * 2
 	set_process(true)
+	play_clunk()
 
 
 func _input(event):
 	if event is InputEventKey:
 		if Input.is_key_pressed(KEY_ESCAPE):
 			get_tree().quit()
+		if Input.is_key_pressed(KEY_S):
+			play_sound = !play_sound
 
 
 func _process(delta):
@@ -70,6 +74,7 @@ func _process(delta):
 		if abs(hit_offset) < (BAT_STEP * 2):
 			ball_step.x *= -1
 			ball_step.y = get_deflection(hit_offset)
+			play_clunk()
 		else:
 			player_score += 1
 			set_score(%PlayerScore, player_score)
@@ -82,6 +87,7 @@ func _process(delta):
 		if abs(hit_offset) < (BAT_STEP * 2):
 			ball_step.x *= -1
 			ball_step.y = get_deflection(hit_offset)
+			play_clunk()
 		else:
 			game_score += 1
 			set_score(%GameScore, game_score)
@@ -123,6 +129,7 @@ func _draw():
 		Vector2(game_bat_pos.x - BAT_SIZE.x / 2, game_bat_pos.y + BAT_SIZE.y / 2), Color.WHITE, BAT_SIZE.x)
 	draw_line(Vector2(player_bat_pos.x - BAT_SIZE.x / 2, player_bat_pos.y - BAT_SIZE.y / 2),\
 		Vector2(player_bat_pos.x - BAT_SIZE.x / 2, player_bat_pos.y + BAT_SIZE.y / 2), Color.WHITE, BAT_SIZE.x)
+	draw_dashed_line(Vector2(playarea.x / 2, MARGIN), Vector2(playarea.x / 2, playarea.y - MARGIN), Color.WHITE, 4.0, )
 
 
 func set_score(label: Label, score: int):
@@ -132,3 +139,8 @@ func set_score(label: Label, score: int):
 func _on_hb_resized():
 	playarea = get_window().size
 	player_bat_pos.x = playarea.x - MARGIN
+
+
+func play_clunk():
+	if play_sound:
+		$Clunk.play()

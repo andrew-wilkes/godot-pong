@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://deugktm1ghfkg"]
+[gd_scene load_steps=3 format=3 uid="uid://deugktm1ghfkg"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_2e3dt"]
+[ext_resource type="AudioStream" uid="uid://bsad2hbejlvnm" path="res://clunk.wav" id="2_jd71i"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_2e3dt")
@@ -11,6 +12,7 @@ script = ExtResource("1_2e3dt")
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
+theme_override_constants/separation = 40
 
 [node name="GameScore" type="Label" parent="Score/HB"]
 unique_name_in_owner = true
@@ -21,18 +23,16 @@ text = "00"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Spacer1" type="Control" parent="Score/HB"]
-layout_mode = 2
-size_flags_horizontal = 3
-
 [node name="Note" type="Label" parent="Score/HB"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Move the bat with the arrow keys.
 
-Hold the CTRL key for player AI."
+Hold the CTRL key for player AI.
 
-[node name="Spacer2" type="Control" parent="Score/HB"]
+Toggle sound: S"
+
+[node name="Spacer1" type="Control" parent="Score/HB"]
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -44,5 +44,8 @@ size_flags_horizontal = 8
 theme_override_font_sizes/font_size = 50
 text = "00"
 vertical_alignment = 1
+
+[node name="Clunk" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_jd71i")
 
 [connection signal="resized" from="Score/HB" to="." method="_on_hb_resized"]
