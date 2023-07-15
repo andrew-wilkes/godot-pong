@@ -18,6 +18,8 @@ var player_score = 0
 func _ready():
 	playarea = get_window().size
 	start_game()
+	await get_tree().create_timer(3.0).timeout
+	%Note.hide()
 
 
 func start_game():
