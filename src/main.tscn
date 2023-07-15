@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://deugktm1ghfkg"]
+[gd_scene load_steps=5 format=3 uid="uid://deugktm1ghfkg"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_2e3dt"]
 [ext_resource type="AudioStream" uid="uid://bsad2hbejlvnm" path="res://clunk.wav" id="2_jd71i"]
+[ext_resource type="AudioStream" uid="uid://bu37lfqunksei" path="res://boop.wav" id="3_r4pjh"]
+[ext_resource type="AudioStream" uid="uid://ca8bx61hlh6ys" path="res://pip.wav" id="4_wgfgk"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_2e3dt")
@@ -47,5 +49,11 @@ vertical_alignment = 1
 
 [node name="Clunk" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_jd71i")
+
+[node name="Boop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_r4pjh")
+
+[node name="Pip" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_wgfgk")
 
 [connection signal="resized" from="Score/HB" to="." method="_on_hb_resized"]

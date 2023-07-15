@@ -4,7 +4,7 @@ const MARGIN = 20
 const BAT_STEP = 10
 const SPEED = 300
 const BALL_SIZE = 4.0
-const BAT_SIZE = Vector2(4.0, 32.0)
+const BAT_SIZE = Vector2(4.0, BAT_STEP * 4)
 const SERVE_WAIT_TIME = 1.0
 
 var playarea: Vector2
@@ -79,6 +79,8 @@ func _process(delta):
 			player_score += 1
 			set_score(%PlayerScore, player_score)
 			set_process(false)
+			if play_sound:
+				$Pip.play()
 			await get_tree().create_timer(SERVE_WAIT_TIME).timeout
 			serve_ball(true)
 	
@@ -92,6 +94,8 @@ func _process(delta):
 			game_score += 1
 			set_score(%GameScore, game_score)
 			set_process(false)
+			if play_sound:
+				$Boop.play()
 			await get_tree().create_timer(SERVE_WAIT_TIME).timeout
 			serve_ball(false)
 	
@@ -126,10 +130,13 @@ func _draw():
 		Vector2(ball_pos.x + BALL_SIZE, ball_pos.y), Color.WHITE, BALL_SIZE * 2)
 	# Draw bats
 	draw_line(Vector2(game_bat_pos.x - BAT_SIZE.x / 2, game_bat_pos.y - BAT_SIZE.y / 2),\
-		Vector2(game_bat_pos.x - BAT_SIZE.x / 2, game_bat_pos.y + BAT_SIZE.y / 2), Color.WHITE, BAT_SIZE.x)
+		Vector2(game_bat_pos.x - BAT_SIZE.x / 2, game_bat_pos.y + BAT_SIZE.y / 2),\
+			Color.WHITE, BAT_SIZE.x)
 	draw_line(Vector2(player_bat_pos.x - BAT_SIZE.x / 2, player_bat_pos.y - BAT_SIZE.y / 2),\
-		Vector2(player_bat_pos.x - BAT_SIZE.x / 2, player_bat_pos.y + BAT_SIZE.y / 2), Color.WHITE, BAT_SIZE.x)
-	draw_dashed_line(Vector2(playarea.x / 2, MARGIN), Vector2(playarea.x / 2, playarea.y - MARGIN), Color.WHITE, 4.0, )
+		Vector2(player_bat_pos.x - BAT_SIZE.x / 2, player_bat_pos.y + BAT_SIZE.y / 2),\
+			Color.WHITE, BAT_SIZE.x)
+	draw_dashed_line(Vector2(playarea.x / 2, MARGIN), Vector2(playarea.x / 2, playarea.y - MARGIN),\
+		Color.WHITE, 4.0, )
 
 
 func set_score(label: Label, score: int):
